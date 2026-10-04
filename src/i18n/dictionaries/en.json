@@ -6,12 +6,13 @@
   "nav": {
     "home": "Home",
     "methodology": "Methodology",
-    "switchLanguage": "العربية",
-    "explore": "Explore",
     "results": "Results",
     "suggest": "Suggest a topic",
-    "switchLanguageShort": "ع",
-    "suggestShort": "Suggest"
+    "create": "Create question",
+    "account": "Account",
+    "search": "Search",
+    "language": "Language",
+    "tabs": "Main navigation"
   },
   "home": {
     "tagline": "Say what you think. See where everyone stands.",
@@ -24,9 +25,7 @@
       "other": "{count} votes today"
     },
     "noTopics": "No open topics right now. Check back soon.",
-    "mostActive": "Most active right now",
-    "exploreAll": "Explore all",
-    "allResults": "All results"
+    "seeAll": "See all"
   },
   "methodology": {
     "title": "Methodology",
@@ -110,7 +109,9 @@
       "generic": "Something went wrong. Please try again."
     },
     "or": "or",
-    "final": "Final result"
+    "final": "Final result",
+    "voteNow": "Vote now",
+    "seeResult": "Result"
   },
   "explore": {
     "title": "Explore",
@@ -165,5 +166,20 @@
       "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
       "generic": "Couldn't send. Try again."
     }
+  },
+  "menu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "title": "Menu",
+    "search": "Search topics",
+    "categories": "Categories",
+    "allTopics": "Browse all topics",
+    "methodology": "Methodology"
+  },
+  "account": {
+    "title": "Account",
+    "comingTitle": "Sign-in is coming soon",
+    "comingBody": "Soon you'll be able to sign in with Google, Apple, or email. Until then, your votes are kept on this device.",
+    "howVerified": "How votes are verified"
   }
 }

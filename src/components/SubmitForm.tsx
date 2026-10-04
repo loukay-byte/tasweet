@@ -75,14 +75,14 @@ export function SubmitForm({ lang, labels, categoryNames }: Props) {
 
   if (state === "sent") {
     return (
-      <div role="status" className="space-y-4 rounded-[1.75rem] border border-border bg-surface p-6">
+      <div role="status" className="space-y-4 card p-6">
         <h2 className="text-2xl font-bold">{labels.sentTitle}</h2>
         <p className="text-muted">{labels.sentBody}</p>
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
             onClick={reset}
-            className="rounded-full bg-accent px-5 py-2.5 font-medium text-accent-foreground"
+            className="rounded-full bg-yes px-5 py-2.5 font-medium text-yes-foreground"
           >
             {labels.another}
           </button>
@@ -161,7 +161,7 @@ export function SubmitForm({ lang, labels, categoryNames }: Props) {
 
       <section aria-label={labels.previewLabel} className="space-y-2">
         <p className="text-sm text-muted">{labels.previewLabel}</p>
-        <div className="rounded-[1.75rem] border border-dashed border-border p-5">
+        <div className="rounded-3xl border border-dashed border-border p-5">
           <p className={`text-lg font-semibold leading-snug ${question ? "" : "text-muted"}`}>
             {question || labels.questionPlaceholder}
           </p>
@@ -174,7 +174,7 @@ export function SubmitForm({ lang, labels, categoryNames }: Props) {
       <button
         type="submit"
         disabled={state === "sending"}
-        className="w-full rounded-full bg-accent px-5 py-3.5 font-medium text-accent-foreground transition active:scale-[.98] disabled:opacity-60"
+        className="w-full rounded-full bg-yes px-5 py-3.5 font-medium text-yes-foreground transition active:scale-[.98] disabled:opacity-60"
       >
         {state === "sending" ? labels.sending : labels.send}
       </button>

@@ -45,14 +45,14 @@ test("results stay hidden until you vote, then tap, guess, and see results", asy
   await page.getByRole("button", { name: "Cost" }).click();
   await page.getByRole("button", { name: "Show the result" }).click();
 
-  const cinemaRow = page.locator("span", { hasText: "Cinema" }).filter({ has: page.getByText("Your vote") });
+  const cinemaRow = page.getByRole("listitem").filter({ hasText: "Cinema" }).getByRole("img", { name: "Your vote" });
   await expect(cinemaRow).toBeVisible();
   await expect(page.getByText(/You guessed \u206670%\u2069/)).toBeVisible();
   await expect(page.getByText(/You can change your vote after/)).toBeVisible();
 
   // Reloading keeps the vote (same anonymous session).
   await page.reload();
-  await expect(cinemaRow.getByText("Your vote")).toBeVisible();
+  await expect(cinemaRow).toBeVisible();
 });
 
 test("swiping toward the start side picks option A in Arabic (RTL)", async ({ page }) => {
@@ -61,7 +61,7 @@ test("swiping toward the start side picks option A in Arabic (RTL)", async ({ pa
   await swipe(page, 200); // right = start in RTL
   await expect(page.getByText(/كم نسبة من اختاروا «السينما»/)).toBeVisible();
   await page.getByRole("button", { name: "تخطَّ" }).click();
-  await expect(page.locator("span", { hasText: "السينما" }).filter({ has: page.getByText("صوتك") })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "السينما" }).getByRole("img", { name: "صوتك" })).toBeVisible();
 });
 
 test("swiping right picks option B in English (LTR)", async ({ page }) => {
@@ -69,14 +69,15 @@ test("swiping right picks option B in English (LTR)", async ({ page }) => {
   await expect(page.getByTestId("vote-card")).toBeVisible();
   await swipe(page, 200);
   await page.getByRole("button", { name: "Skip" }).click();
-  await expect(page.locator("span", { hasText: "Streaming" }).filter({ has: page.getByText("Your vote") })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Streaming" }).getByRole("img", { name: "Your vote" })).toBeVisible();
 });
 
 test("closed topics show final results without voting", async ({ page }) => {
   await page.goto(`/en${CLOSED}`);
   await expect(page.getByText(/Voting on this topic has ended/)).toBeVisible();
   await expect(page.getByTestId("vote-card")).toHaveCount(0);
-  await expect(page.getByRole("img", { name: "Yes 33%, No 67%" })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Yes" })).toContainText("33%");
+  await expect(page.getByRole("listitem").filter({ hasText: "No" })).toContainText("67%");
 });
 
 test("unknown topics return 404", async ({ page }) => {

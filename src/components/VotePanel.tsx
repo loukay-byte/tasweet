@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { fill, formatNumber, formatPercent, numberLocale, plural, type Locale } from "@/i18n/config";
-import { SplitBar } from "@/components/SplitBar";
+import { ChartNoAxesColumn, CircleCheck, Clock } from "lucide-react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/client";
 import { percentA, reasonTags, type Choice, type ReasonTag, type TopicResults } from "@/lib/votes";
@@ -116,7 +116,7 @@ export function VotePanel({ lang, topicId, optionA, optionB, labels, reasons }: 
         </p>
       )}
 
-      {phase === "loading" && <div className="h-44 animate-pulse rounded-[1.75rem] bg-surface" />}
+      {phase === "loading" && <div className="card h-44 animate-pulse" />}
 
       {(phase === "choose" || phase === "submitting") && (
         <ChooseCard
@@ -217,7 +217,7 @@ function ChooseCard({
           transition: dx === 0 ? "transform 250ms cubic-bezier(.2,.8,.2,1)" : "none",
         }}
         data-testid="vote-card"
-        className="relative grid touch-pan-y select-none grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border bg-surface"
+        className="card relative grid touch-pan-y select-none grid-cols-2 overflow-hidden"
       >
         {(["a", "b"] as const).map((choice) => {
           const label = choice === "a" ? optionA : optionB;
@@ -282,7 +282,7 @@ function GuessStep({
   };
 
   return (
-    <div className="space-y-6 rounded-[1.75rem] border border-border bg-surface p-5">
+    <div className="card space-y-6 p-5">
       <div className="space-y-4">
         <label htmlFor="guess" className="block font-medium">
           {fill(labels.guessTitle, { option: optionA })}
@@ -331,7 +331,7 @@ function GuessStep({
           type="button"
           disabled={busy}
           onClick={() => submit(true)}
-          className="flex-1 rounded-full bg-accent px-4 py-3 font-medium text-accent-foreground transition active:scale-[.98] disabled:opacity-60"
+          className="flex-1 rounded-full bg-yes px-4 py-3 font-medium text-yes-foreground transition active:scale-[.98] disabled:opacity-60"
         >
           {labels.guessSubmit}
         </button>
@@ -383,13 +383,21 @@ function ResultsView({
     return () => clearTimeout(id);
   }, [canChangeAt, now]);
 
+  const rows = [
+    { choice: "a" as const, label: optionA, pct: total ? (shown ?? 50) : 0, bar: "bg-yes", tick: "text-yes" },
+    { choice: "b" as const, label: optionB, pct: total ? 100 - (shown ?? 50) : 0, bar: "bg-no", tick: "text-no" },
+  ];
+
   return (
-    <div className="space-y-5 rounded-[1.75rem] border border-border bg-surface p-5">
+    <div className="card space-y-5 p-5">
       <div className="flex items-center justify-between text-sm text-muted">
-        <span>{plural(lang, labels.totalVotes, results.total)}</span>
+        <span className="inline-flex items-center gap-1.5">
+          <ChartNoAxesColumn className="size-4" aria-hidden="true" />
+          {plural(lang, labels.totalVotes, results.total)}
+        </span>
         {results.is_open ? (
-          <span className="inline-flex items-center gap-1.5 text-accent">
-            <span className="size-1.5 animate-pulse rounded-full bg-accent" />
+          <span className="inline-flex items-center gap-1.5 text-yes">
+            <span className="size-1.5 animate-pulse rounded-full bg-live" />
             {labels.live}
           </span>
         ) : (
@@ -398,49 +406,63 @@ function ResultsView({
       </div>
 
       {total > 0 && (
-        <SplitBar
-          lang={lang}
-          size="lg"
-          pctA={shown ?? 50}
-          labelA={optionA}
-          labelB={optionB}
-          mine={mine?.choice}
-          mineLabel={labels.yourVote}
-        />
+        <ul className="space-y-4">
+          {rows.map((row) => (
+            <li key={row.choice} className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 font-bold">
+                  {mine?.choice === row.choice && (
+                    <CircleCheck role="img" className={`size-5 ${row.tick}`} aria-label={labels.yourVote} />
+                  )}
+                  {row.label}
+                </span>
+                <span className={`text-2xl font-bold tabular-nums ${row.pct >= 50 ? "" : "text-muted"}`}>
+                  {formatNumber(lang, row.pct)}%
+                </span>
+              </div>
+              <div className="h-2.5 overflow-hidden rounded-full bg-undecided/35">
+                <div
+                  className={`h-full rounded-full transition-[width] duration-1000 ease-out ${row.bar}`}
+                  style={{ width: `${row.pct}%` }}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
 
-      {mine?.guess_pct_a != null && total > 0 && (
-        <p className="text-sm">
-          {fill(labels.guessResult, {
-            guess: formatPercent(lang, mine.guess_pct_a),
-            actual: formatPercent(lang, pctA),
-          })}
-        </p>
-      )}
-
-      {!results.is_open && <p className="text-sm text-muted">{labels.closedNotice}</p>}
-
-      {mine && results.is_open && (
-        <div className="border-t border-border pt-4">
-          {canChangeAt && canChangeAt > now ? (
-            <p className="text-xs text-muted">
-              {fill(labels.changeAvailable, {
-                time: new Intl.DateTimeFormat(numberLocale[lang], { hour: "numeric", minute: "2-digit" }).format(
-                  canChangeAt,
-                ),
+      {(mine?.guess_pct_a != null && total > 0) || (mine && results.is_open) || !results.is_open ? (
+        <div className="space-y-2 border-t border-border pt-4 text-sm">
+          {mine?.guess_pct_a != null && total > 0 && (
+            <p>
+              {fill(labels.guessResult, {
+                guess: formatPercent(lang, mine.guess_pct_a),
+                actual: formatPercent(lang, pctA),
               })}
             </p>
-          ) : (
-            <button
-              type="button"
-              onClick={() => onChange(mine.choice === "a" ? "b" : "a")}
-              className="text-sm font-medium text-accent hover:underline"
-            >
-              {labels.changeVote}
-            </button>
           )}
+          {!results.is_open && <p className="text-muted">{labels.closedNotice}</p>}
+          {mine && results.is_open &&
+            (canChangeAt && canChangeAt > now ? (
+              <p className="flex items-center gap-1.5 text-xs text-muted">
+                <Clock className="size-3.5" aria-hidden="true" />
+                {fill(labels.changeAvailable, {
+                  time: new Intl.DateTimeFormat(numberLocale[lang], { hour: "numeric", minute: "2-digit" }).format(
+                    canChangeAt,
+                  ),
+                })}
+              </p>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onChange(mine.choice === "a" ? "b" : "a")}
+                className="font-medium text-yes hover:underline"
+              >
+                {labels.changeVote}
+              </button>
+            ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

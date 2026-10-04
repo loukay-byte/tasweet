@@ -3,30 +3,28 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/config";
-
-type Labels = { home: string; explore: string; results: string };
+import type { Dictionary } from "@/i18n/dictionaries";
+import { navTabs } from "./BottomNav";
 
 // Desktop counterpart of the bottom tab bar.
-export function HeaderLinks({ lang, labels }: { lang: Locale; labels: Labels }) {
+export function HeaderLinks({ lang, labels }: { lang: Locale; labels: Dictionary["nav"] }) {
   const pathname = usePathname();
-  const links = [
-    { href: `/${lang}`, label: labels.home, active: pathname === `/${lang}` },
-    { href: `/${lang}/explore`, label: labels.explore, active: pathname.startsWith(`/${lang}/explore`) },
-    { href: `/${lang}/results`, label: labels.results, active: pathname.startsWith(`/${lang}/results`) },
-  ];
   return (
     <ul className="hidden items-center gap-6 text-sm md:flex">
-      {links.map((l) => (
-        <li key={l.href}>
-          <Link
-            href={l.href}
-            aria-current={l.active ? "page" : undefined}
-            className={l.active ? "font-bold text-foreground" : "text-muted hover:text-foreground"}
-          >
-            {l.label}
-          </Link>
-        </li>
-      ))}
+      {navTabs(lang, labels).map(({ href, label, match }) => {
+        const active = match(pathname);
+        return (
+          <li key={href}>
+            <Link
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={active ? "font-bold" : "text-band-foreground/75 hover:text-band-foreground"}
+            >
+              {label}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

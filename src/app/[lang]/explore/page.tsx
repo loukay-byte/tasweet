@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SearchIcon } from "@/components/nav/icons";
-import { TopicRow } from "@/components/TopicRow";
+import { Search } from "lucide-react";
+import { PageBand } from "@/components/PageBand";
+import { TopicCard } from "@/components/TopicCard";
 import { fill, hasLocale, plural } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getClosedResults, localize, searchTopics, type Topic } from "@/lib/topics";
@@ -39,22 +40,24 @@ export default async function Explore({ params, searchParams }: PageProps<"/[lan
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl font-bold">{explore.title}</h1>
+    <>
+      <PageBand title={explore.title} />
+      <div className="mx-auto max-w-3xl space-y-6 px-4 pt-2">
 
       <form action={`/${lang}/explore`} role="search" className="relative">
         <label htmlFor="q" className="sr-only">
           {explore.searchLabel}
         </label>
-        <SearchIcon className="pointer-events-none absolute start-4 top-1/2 size-5 -translate-y-1/2 text-muted" />
+        <Search className="pointer-events-none absolute start-4 top-1/2 size-5 -translate-y-1/2 text-muted" aria-hidden="true" />
         <input
           id="q"
           name="q"
           type="search"
           defaultValue={q}
+          autoFocus={!q && !c}
           placeholder={explore.searchPlaceholder}
           enterKeyHint="search"
-          className="w-full rounded-full border border-border bg-surface py-3.5 ps-12 pe-4 text-base outline-none placeholder:text-muted focus:border-accent"
+          className="card w-full rounded-full! py-3.5 ps-12 pe-4 text-base outline-none placeholder:text-muted focus:border-yes"
         />
         {c && <input type="hidden" name="c" value={c} />}
       </form>
@@ -87,15 +90,15 @@ export default async function Explore({ params, searchParams }: PageProps<"/[lan
       </p>
 
       {topics.length > 0 ? (
-        <ul>
+        <ul className="space-y-3">
           {topics.map((t) => (
             <li key={t.id}>
-              <TopicRow lang={lang} topic={localize(t, lang)} dict={dict} resultPctA={results.get(t.id)} />
+              <TopicCard lang={lang} topic={localize(t, lang)} dict={dict} resultPctA={results.get(t.id)} />
             </li>
           ))}
         </ul>
       ) : (
-        <div className="space-y-2 rounded-[1.75rem] border border-dashed border-border p-6">
+        <div className="space-y-2 rounded-3xl border border-dashed border-border p-6">
           <p className="font-medium">{q ? fill(explore.noMatches, { q }) : explore.noTopics}</p>
           <p className="text-sm text-muted">
             {explore.noMatchesHint}{" "}
@@ -105,6 +108,7 @@ export default async function Explore({ params, searchParams }: PageProps<"/[lan
           </p>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

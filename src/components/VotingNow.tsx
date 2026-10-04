@@ -22,10 +22,10 @@ export function VotingNow({ lang, initial, label }: { lang: Locale; initial: num
   }, []);
 
   return (
-    <p className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-sm">
+    <p className="inline-flex items-center gap-2 text-xs text-band-foreground/85">
       <span className="relative flex size-2">
-        <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-        <span className="relative inline-flex size-2 rounded-full bg-accent" />
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-live opacity-60" />
+        <span className="relative inline-flex size-2 rounded-full bg-live" />
       </span>
       {fill(label, { count: formatNumber(lang, count) })}
     </p>

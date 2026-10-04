@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TopicRow } from "@/components/TopicRow";
+import { CategoryChip, StatusChip } from "@/components/CategoryChip";
+import { HeroBand } from "@/components/HeroBand";
+import { SectionHeading } from "@/components/SectionHeading";
+import { TopicCard } from "@/components/TopicCard";
 import { VotePanel } from "@/components/VotePanel";
 import { VotingNow } from "@/components/VotingNow";
 import { hasLocale, plural } from "@/i18n/config";
@@ -30,32 +33,42 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   ]);
   const closedResults = await getClosedResults(closed.map((t) => t.id));
 
-  // The hero is a ballot you can vote on right here: today's question,
-  // or the most active open topic when none is set.
+  // The hero is a ballot you vote on right here: today's question, or the
+  // most active open topic when none is set.
   const heroTopic = featured && localize(featured, lang).isOpen ? featured : (trending[0] ?? null);
   const hero = heroTopic && localize(heroTopic, lang);
   const rest = trending.filter((t) => t.id !== heroTopic?.id).slice(0, 6);
 
   return (
-    <div className="space-y-14">
-      <section className="space-y-5">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <VotingNow lang={lang} initial={votingNow} label={home.votingNow} />
-          {hero && (
-            <span className="text-sm text-muted">
-              {heroTopic === featured ? home.questionOfTheDay : home.mostActive}
+    <>
+      <HeroBand overlap={!!hero}>
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            {hero && <CategoryChip tone="band" category={hero.category} label={dict.categories[hero.category]} />}
+            {hero && <StatusChip live label={heroTopic === featured ? home.questionOfTheDay : dict.status.open} />}
+            <span className="ms-auto">
+              <VotingNow lang={lang} initial={votingNow} label={home.votingNow} />
             </span>
+          </div>
+          {hero ? (
+            <>
+              <Link href={`/${lang}/t/${hero.slug}`} className="block">
+                <h1 className="text-[2rem] leading-[1.25] font-bold text-balance sm:text-5xl">{hero.question}</h1>
+              </Link>
+              {hero.description && <p className="text-band-foreground/85">{hero.description}</p>}
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold">{home.tagline}</h1>
+              <p className="text-band-foreground/85">{home.noTopics}</p>
+            </>
           )}
         </div>
+      </HeroBand>
 
+      <div className="mx-auto max-w-3xl space-y-12 px-4">
         {hero ? (
-          <>
-            <Link href={`/${lang}/t/${hero.slug}`} className="block">
-              <h1 className="text-[2.5rem] leading-[1.15] font-bold text-balance hover:text-accent sm:text-5xl">
-                {hero.question}
-              </h1>
-            </Link>
-            {hero.description && <p className="max-w-xl text-muted">{hero.description}</p>}
+          <div className="relative z-10 -mt-24">
             <VotePanel
               lang={lang}
               topicId={hero.id}
@@ -64,59 +77,44 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               labels={dict.topic}
               reasons={dict.reasons}
             />
-          </>
-        ) : (
-          <div className="space-y-4 py-10">
-            <h1 className="text-4xl font-bold">{home.tagline}</h1>
-            <p className="text-muted">{home.noTopics}</p>
-            <Link href={`/${lang}/submit`} className="inline-block font-medium text-accent underline">
-              {dict.nav.suggest}
-            </Link>
           </div>
+        ) : (
+          <Link href={`/${lang}/submit`} className="mt-6 inline-block font-medium text-yes underline">
+            {dict.nav.suggest}
+          </Link>
         )}
-      </section>
 
-      {rest.length > 0 && (
-        <section>
-          <SectionHeading title={home.trending} href={`/${lang}/explore`} linkLabel={home.exploreAll} />
-          <ul>
-            {rest.map((t) => (
-              <li key={t.id}>
-                <TopicRow
-                  lang={lang}
-                  topic={localize(t, lang)}
-                  dict={dict}
-                  meta={t.recentVotes > 0 ? plural(lang, home.votesToday, t.recentVotes) : undefined}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+        {rest.length > 0 && (
+          <section>
+            <SectionHeading title={home.trending} href={`/${lang}/explore`} linkLabel={home.seeAll} />
+            <ul className="space-y-3">
+              {rest.map((t) => (
+                <li key={t.id}>
+                  <TopicCard
+                    lang={lang}
+                    topic={localize(t, lang)}
+                    dict={dict}
+                    meta={t.recentVotes > 0 ? plural(lang, home.votesToday, t.recentVotes) : undefined}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
-      {closed.length > 0 && (
-        <section>
-          <SectionHeading title={home.recentResults} href={`/${lang}/results`} linkLabel={home.allResults} />
-          <ul>
-            {closed.map((t) => (
-              <li key={t.id}>
-                <TopicRow lang={lang} topic={localize(t, lang)} dict={dict} resultPctA={closedResults.get(t.id)} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </div>
-  );
-}
-
-function SectionHeading({ title, href, linkLabel }: { title: string; href: string; linkLabel: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-border pb-3">
-      <h2 className="text-2xl font-bold">{title}</h2>
-      <Link href={href} className="text-sm text-accent hover:underline">
-        {linkLabel}
-      </Link>
-    </div>
+        {closed.length > 0 && (
+          <section>
+            <SectionHeading title={home.recentResults} href={`/${lang}/results`} linkLabel={home.seeAll} />
+            <ul className="space-y-3">
+              {closed.map((t) => (
+                <li key={t.id}>
+                  <TopicCard lang={lang} topic={localize(t, lang)} dict={dict} resultPctA={closedResults.get(t.id)} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </>
   );
 }

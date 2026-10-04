@@ -1,10 +1,12 @@
+import { Search } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BottomNav } from "@/components/nav/BottomNav";
 import { HeaderLinks } from "@/components/nav/HeaderLinks";
-import { PlusIcon } from "@/components/nav/icons";
+import { LanguageToggle } from "@/components/nav/LanguageToggle";
+import { MenuDrawer } from "@/components/nav/MenuDrawer";
 import { SplitMark } from "@/components/nav/SplitMark";
 import { dir, hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -37,8 +39,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 export const viewport: Viewport = {
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5efe3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d5c52" },
+    { media: "(prefers-color-scheme: light)", color: "#0c4a43" },
+    { media: "(prefers-color-scheme: dark)", color: "#083a34" },
   ],
 };
 
@@ -46,41 +48,37 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
-  const other = lang === "ar" ? "en" : "ar";
-  const navLabels = { home: dict.nav.home, explore: dict.nav.explore, results: dict.nav.results };
 
   return (
     <html lang={lang} dir={dir(lang)} className={`${plex.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-          <nav className="mx-auto flex max-w-3xl items-center gap-4 px-4 py-2.5">
-            <Link href={`/${lang}`} className="flex items-center gap-2" aria-label={dict.meta.title}>
-              <SplitMark className="size-7" />
-              <span className="text-2xl font-bold leading-none">{dict.meta.title}</span>
+        <header className="sticky top-0 z-40 bg-band text-band-foreground">
+          <nav className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3">
+            <MenuDrawer
+              lang={lang}
+              labels={dict.menu}
+              searchPlaceholder={dict.explore.searchPlaceholder}
+              categoryNames={dict.categories}
+            />
+            <Link href={`/${lang}`} className="flex items-center gap-2">
+              <SplitMark className="size-6" />
+              <span className="text-2xl leading-none font-bold">{dict.meta.title}</span>
             </Link>
             <div className="ms-6 flex-1">
-              <HeaderLinks lang={lang} labels={navLabels} />
+              <HeaderLinks lang={lang} labels={dict.nav} />
             </div>
             <Link
-              href={`/${other}`}
-              hrefLang={other}
-              lang={other}
-              aria-label={dict.nav.switchLanguage}
-              className="rounded-full px-2 py-1 text-sm text-muted hover:text-foreground"
+              href={`/${lang}/explore`}
+              aria-label={dict.nav.search}
+              className="rounded-full p-2 hover:bg-band-foreground/10"
             >
-              {dict.nav.switchLanguageShort}
+              <Search className="size-5" aria-hidden="true" />
             </Link>
-            <Link
-              href={`/${lang}/submit`}
-              className="inline-flex items-center gap-1.5 rounded-full bg-accent py-2 ps-3 pe-4 text-sm font-medium text-accent-foreground shadow-sm transition hover:brightness-110 active:scale-95"
-            >
-              <PlusIcon className="size-4" />
-              {dict.nav.suggestShort}
-            </Link>
+            <LanguageToggle lang={lang} label={dict.nav.language} />
           </nav>
         </header>
 
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 pt-6 pb-28 md:pb-12">{children}</main>
+        <main className="flex-1 pb-28 md:pb-12">{children}</main>
 
         <footer className="hidden border-t border-border py-8 text-sm text-muted md:block">
           <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4">
@@ -91,7 +89,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           </div>
         </footer>
 
-        <BottomNav lang={lang} labels={navLabels} />
+        <BottomNav lang={lang} labels={dict.nav} />
       </body>
     </html>
   );

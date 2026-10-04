@@ -54,6 +54,10 @@ tests/e2e/           Browser tests (Playwright)
 docs/                Setup and deployment guides
 ```
 
+## Category artwork
+
+Topic cards show artwork for their category. Until images are added, an abstract composition built from the category icon is drawn. To use real images, put them in `public/categories/` (for example `sports.webp`, around 400×400) and list them in `src/components/CategoryArt.tsx`.
+
 ## Build phases
 
 - [x] **1. Foundation:** Next.js, Arabic and English layout, Supabase connected, Vercel + Cloudflare ([setup guide](docs/setup.md))

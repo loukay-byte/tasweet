@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CategoryChip, StatusChip } from "@/components/CategoryChip";
+import { HeroBand } from "@/components/HeroBand";
 import { VotePanel } from "@/components/VotePanel";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -41,29 +43,34 @@ export default async function TopicPage({ params }: PageProps<"/[lang]/t/[slug]"
   const dict = await getDictionary(lang);
 
   return (
-    <article className="space-y-6">
-      <header className="space-y-3">
-        <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-          <Link href={`/${lang}/explore?c=${topic.category}`} className="font-medium text-accent hover:underline">
-            {dict.categories[topic.category]}
-          </Link>
-          {topic.isSponsored && (
-            <span className="rounded-full border border-border px-2.5 py-0.5">{dict.topic.sponsored}</span>
-          )}
-          <span>· {topic.isOpen ? dict.status.open : dict.status[topic.status === "open" ? "closed" : topic.status]}</span>
+    <article>
+      <HeroBand overlap>
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link href={`/${lang}/explore?c=${topic.category}`}>
+              <CategoryChip tone="band" category={topic.category} label={dict.categories[topic.category]} />
+            </Link>
+            <StatusChip
+              live={topic.isOpen}
+              label={topic.isOpen ? dict.status.open : dict.status[topic.status === "open" ? "closed" : topic.status]}
+            />
+            {topic.isSponsored && <StatusChip live={false} label={dict.topic.sponsored} />}
+          </div>
+          <h1 className="text-[2rem] leading-[1.25] font-bold text-balance sm:text-5xl">{topic.question}</h1>
+          {topic.description && <p className="text-band-foreground/85">{topic.description}</p>}
         </div>
-        <h1 className="text-[2.25rem] leading-[1.2] font-bold text-balance sm:text-5xl">{topic.question}</h1>
-        {topic.description && <p className="text-muted">{topic.description}</p>}
-      </header>
+      </HeroBand>
 
-      <VotePanel
-        lang={lang}
-        topicId={topic.id}
-        optionA={topic.optionA}
-        optionB={topic.optionB}
-        labels={dict.topic}
-        reasons={dict.reasons}
-      />
+      <div className="relative z-10 mx-auto -mt-24 max-w-3xl px-4">
+        <VotePanel
+          lang={lang}
+          topicId={topic.id}
+          optionA={topic.optionA}
+          optionB={topic.optionB}
+          labels={dict.topic}
+          reasons={dict.reasons}
+        />
+      </div>
     </article>
   );
 }
