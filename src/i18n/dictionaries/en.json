@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Tasweet",
+    "description": "A trusted public opinion platform: vote on current topics in Saudi Arabia and see where the public stands."
+  },
+  "nav": {
+    "home": "Home",
+    "methodology": "Methodology",
+    "switchLanguage": "العربية"
+  },
+  "home": {
+    "tagline": "Your vote. The public's view.",
+    "intro": "Vote on current topics and see where public opinion in the Kingdom stands. Results come from verified voters only.",
+    "comingSoon": "Coming soon",
+    "principlesTitle": "Our principles",
+    "principles": [
+      { "title": "Credibility over volume", "body": "Only geo-verified, trusted votes count in official results." },
+      { "title": "No pay to sway", "body": "Money never changes a vote or a result." },
+      { "title": "Open by default", "body": "The code is public on GitHub and the methodology is published." },
+      { "title": "Privacy first", "body": "Results are only ever shown in aggregate, never as individual votes." },
+      { "title": "Moderated, not censored", "body": "Every topic is reviewed before going live, against a published topic policy." }
+    ]
+  },
+  "methodology": {
+    "title": "Methodology",
+    "body": "Results reflect verified Tasweet voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here."
+  },
+  "footer": {
+    "rights": "Tasweet"
+  }
+}
