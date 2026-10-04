@@ -40,7 +40,7 @@ export default async function Explore({ params, searchParams }: PageProps<"/[lan
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-4xl font-bold">{explore.title}</h1>
+      <h1 className="text-4xl font-bold">{explore.title}</h1>
 
       <form action={`/${lang}/explore`} role="search" className="relative">
         <label htmlFor="q" className="sr-only">

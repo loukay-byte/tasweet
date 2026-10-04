@@ -26,7 +26,7 @@ export default async function Results({ params }: PageProps<"/[lang]/results">) 
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-        <h1 className="font-display text-4xl font-bold">{dict.results.title}</h1>
+        <h1 className="text-4xl font-bold">{dict.results.title}</h1>
         <p className="text-muted">{dict.results.intro}</p>
       </header>
       {topics.length > 0 ? (

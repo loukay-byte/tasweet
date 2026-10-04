@@ -1,6 +1,6 @@
 @AGENTS.md
 
-# Tasweet project notes
+# Sotak (صوتك) project notes
 
 - Arabic is the default locale and is right-to-left. Every user-facing string goes in both `src/i18n/dictionaries/ar.json` and `en.json`. Use logical Tailwind utilities (`ms-`, `me-`, `ps-`, `pe-`, `start-`, `end-`) rather than `left`/`right`, so layouts mirror correctly.
 - Individual votes are private. Only aggregates from verified (`counted`) votes may be shown, and breakdowns only above the minimum vote count.

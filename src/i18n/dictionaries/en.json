@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Tasweet",
+    "title": "Sotak",
     "description": "A trusted public opinion platform: vote on current topics in Saudi Arabia and see where the public stands."
   },
   "nav": {
@@ -10,10 +10,11 @@
     "explore": "Explore",
     "results": "Results",
     "suggest": "Suggest a topic",
-    "switchLanguageShort": "ع"
+    "switchLanguageShort": "ع",
+    "suggestShort": "Suggest"
   },
   "home": {
-    "tagline": "Your vote. The public's view.",
+    "tagline": "Say what you think. See where everyone stands.",
     "votingNow": "{count} voting now",
     "questionOfTheDay": "Question of the Day",
     "trending": "Trending",
@@ -29,7 +30,7 @@
   },
   "methodology": {
     "title": "Methodology",
-    "body": "Results reflect verified Tasweet voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here.",
+    "body": "Results reflect verified Sotak voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here.",
     "principlesTitle": "Our principles",
     "principles": [
       {
@@ -55,7 +56,7 @@
     ]
   },
   "footer": {
-    "tagline": "Your vote. The public's view."
+    "tagline": "Say what you think. See where everyone stands."
   },
   "categories": {
     "social": "Social",
@@ -99,7 +100,7 @@
     "changeVote": "Change your vote",
     "changeAvailable": "You can change your vote after {time}.",
     "closedNotice": "Voting on this topic has ended. These are the final results.",
-    "resultsNote": "Results reflect Tasweet voters, not all of KSA.",
+    "resultsNote": "Results reflect Sotak voters, not all of KSA.",
     "methodologyLink": "How votes are verified",
     "live": "Live",
     "errors": {

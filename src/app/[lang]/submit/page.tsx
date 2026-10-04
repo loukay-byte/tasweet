@@ -20,12 +20,12 @@ export default async function Submit({ params }: PageProps<"/[lang]/submit">) {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="font-display text-4xl font-bold">{submit.title}</h1>
+        <h1 className="text-4xl font-bold">{submit.title}</h1>
         <p className="text-muted">{submit.intro}</p>
       </header>
 
       <section className="rounded-[1.75rem] bg-accent p-5 text-accent-foreground">
-        <h2 className="font-display text-lg font-bold">{submit.policyTitle}</h2>
+        <h2 className="text-lg font-bold">{submit.policyTitle}</h2>
         <ul className="mt-2 list-disc space-y-1 ps-5 text-sm">
           {submit.policy.map((rule) => (
             <li key={rule}>{rule}</li>

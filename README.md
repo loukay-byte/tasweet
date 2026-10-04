@@ -1,4 +1,4 @@
-# Tasweet · تصويت
+# Sotak · صوتك
 
 A moderated public opinion platform where people in Saudi Arabia vote on current topics and see where the public stands. Arabic-first, English second.
 

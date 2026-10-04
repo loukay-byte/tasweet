@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Readex_Pro, Reem_Kufi } from "next/font/google";
+import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BottomNav } from "@/components/nav/BottomNav";
@@ -10,18 +10,11 @@ import { dir, hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import "../globals.css";
 
-// Display: Reem Kufi, a geometric Kufic face, used for headlines and figures.
-const kufi = Reem_Kufi({
-  variable: "--font-kufi",
+// IBM Plex Sans Arabic: one family for Arabic and Latin, headlines to captions.
+const plex = IBM_Plex_Sans_Arabic({
+  variable: "--font-plex",
   subsets: ["arabic", "latin"],
-  weight: ["500", "600", "700"],
-});
-
-// Body: Readex Pro, designed for Arabic and Latin reading at small sizes.
-const body = Readex_Pro({
-  variable: "--font-body",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export function generateStaticParams() {
@@ -57,13 +50,13 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const navLabels = { home: dict.nav.home, explore: dict.nav.explore, results: dict.nav.results };
 
   return (
-    <html lang={lang} dir={dir(lang)} className={`${kufi.variable} ${body.variable} h-full antialiased`}>
+    <html lang={lang} dir={dir(lang)} className={`${plex.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
           <nav className="mx-auto flex max-w-3xl items-center gap-4 px-4 py-2.5">
             <Link href={`/${lang}`} className="flex items-center gap-2" aria-label={dict.meta.title}>
               <SplitMark className="size-7" />
-              <span className="font-display text-2xl font-bold leading-none">{dict.meta.title}</span>
+              <span className="text-2xl font-bold leading-none">{dict.meta.title}</span>
             </Link>
             <div className="ms-6 flex-1">
               <HeaderLinks lang={lang} labels={navLabels} />
@@ -82,7 +75,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
               className="inline-flex items-center gap-1.5 rounded-full bg-accent py-2 ps-3 pe-4 text-sm font-medium text-accent-foreground shadow-sm transition hover:brightness-110 active:scale-95"
             >
               <PlusIcon className="size-4" />
-              {dict.nav.suggest}
+              {dict.nav.suggestShort}
             </Link>
           </nav>
         </header>
@@ -91,7 +84,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
 
         <footer className="hidden border-t border-border py-8 text-sm text-muted md:block">
           <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4">
-            <span className="font-display text-foreground">{dict.footer.tagline}</span>
+            <span className="text-foreground">{dict.footer.tagline}</span>
             <Link href={`/${lang}/methodology`} className="hover:text-foreground">
               {dict.nav.methodology}
             </Link>

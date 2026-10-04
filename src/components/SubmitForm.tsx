@@ -76,7 +76,7 @@ export function SubmitForm({ lang, labels, categoryNames }: Props) {
   if (state === "sent") {
     return (
       <div role="status" className="space-y-4 rounded-[1.75rem] border border-border bg-surface p-6">
-        <h2 className="font-display text-2xl font-bold">{labels.sentTitle}</h2>
+        <h2 className="text-2xl font-bold">{labels.sentTitle}</h2>
         <p className="text-muted">{labels.sentBody}</p>
         <div className="flex flex-wrap gap-3">
           <button

@@ -29,7 +29,7 @@ update public.users set role = 'moderator' where email = 'you@example.com';
 1. Import the GitHub repository at [vercel.com/new](https://vercel.com/new). The framework is detected as Next.js; no build settings need changing.
 2. Under **Settings → Environment Variables**, add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` for Production and Preview.
 3. Deploy, then check `https://<project>.vercel.app/api/health`.
-4. Under **Settings → Domains**, add `tasweet.com` (or the chosen domain) and `www`.
+4. Under **Settings → Domains**, add the chosen domain and `www`.
 
 ## 3. Cloudflare
 
@@ -46,4 +46,4 @@ update public.users set role = 'moderator' where email = 'you@example.com';
 
 ### Note on Vercel behind Cloudflare
 
-Vercel recommends against proxying through Cloudflare because it can interfere with Vercel's own edge caching. Tasweet needs the Cloudflare country block, so keep the proxy on. If you see caching or certificate issues, check that SSL mode is Full (strict) and that Cloudflare caching is not overriding Vercel's `Cache-Control` headers.
+Vercel recommends against proxying through Cloudflare because it can interfere with Vercel's own edge caching. Sotak needs the Cloudflare country block, so keep the proxy on. If you see caching or certificate issues, check that SSL mode is Full (strict) and that Cloudflare caching is not overriding Vercel's `Cache-Control` headers.

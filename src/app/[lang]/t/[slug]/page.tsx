@@ -52,7 +52,7 @@ export default async function TopicPage({ params }: PageProps<"/[lang]/t/[slug]"
           )}
           <span>· {topic.isOpen ? dict.status.open : dict.status[topic.status === "open" ? "closed" : topic.status]}</span>
         </div>
-        <h1 className="font-display text-[2.25rem] leading-[1.2] font-bold text-balance sm:text-5xl">{topic.question}</h1>
+        <h1 className="text-[2.25rem] leading-[1.2] font-bold text-balance sm:text-5xl">{topic.question}</h1>
         {topic.description && <p className="text-muted">{topic.description}</p>}
       </header>
 

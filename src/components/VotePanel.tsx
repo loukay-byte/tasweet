@@ -228,9 +228,17 @@ function ChooseCard({
               type="button"
               disabled={disabled}
               onClick={() => onChoose(choice)}
-              className={`font-display flex min-h-40 items-center justify-center px-5 py-8 text-center text-2xl leading-snug font-bold transition-colors disabled:opacity-60 ${
+              className={`flex min-h-40 items-center justify-center px-5 py-8 text-center text-2xl leading-snug font-bold transition-colors disabled:opacity-60 ${
                 choice === "a" ? "border-e border-border" : ""
-              } ${highlighted ? "bg-accent text-accent-foreground" : "hover:bg-accent/10 active:bg-accent/15"}`}
+              } ${
+                highlighted
+                  ? choice === "a"
+                    ? "bg-yes text-yes-foreground"
+                    : "bg-no text-no-foreground"
+                  : choice === "a"
+                    ? "hover:bg-yes/10 active:bg-yes/15"
+                    : "hover:bg-no/10 active:bg-no/15"
+              }`}
             >
               {label}
             </button>
@@ -238,7 +246,7 @@ function ChooseCard({
         })}
         <span
           aria-hidden="true"
-          className="font-display pointer-events-none absolute top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-sm text-muted"
+          className="pointer-events-none absolute top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-sm text-muted"
         >
           {orLabel}
         </span>
@@ -290,7 +298,7 @@ function GuessStep({
             style={{ "--fill": `${guess}%` } as CSSProperties}
             className="range w-full"
           />
-          <output htmlFor="guess" className="font-display w-20 shrink-0 text-end text-4xl font-bold tabular-nums">
+          <output htmlFor="guess" className="w-20 shrink-0 text-end text-4xl font-bold tabular-nums">
             {formatNumber(lang, guess)}%
           </output>
         </div>

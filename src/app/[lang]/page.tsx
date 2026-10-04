@@ -51,7 +51,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {hero ? (
           <>
             <Link href={`/${lang}/t/${hero.slug}`} className="block">
-              <h1 className="font-display text-[2.5rem] leading-[1.15] font-bold text-balance hover:text-accent sm:text-5xl">
+              <h1 className="text-[2.5rem] leading-[1.15] font-bold text-balance hover:text-accent sm:text-5xl">
                 {hero.question}
               </h1>
             </Link>
@@ -67,7 +67,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </>
         ) : (
           <div className="space-y-4 py-10">
-            <h1 className="font-display text-4xl font-bold">{home.tagline}</h1>
+            <h1 className="text-4xl font-bold">{home.tagline}</h1>
             <p className="text-muted">{home.noTopics}</p>
             <Link href={`/${lang}/submit`} className="inline-block font-medium text-accent underline">
               {dict.nav.suggest}
@@ -112,8 +112,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
 function SectionHeading({ title, href, linkLabel }: { title: string; href: string; linkLabel: string }) {
   return (
-    <div className="mb-1 flex items-baseline justify-between gap-4 border-b-2 border-foreground pb-2">
-      <h2 className="font-display text-2xl font-bold">{title}</h2>
+    <div className="flex items-baseline justify-between gap-4 border-b border-border pb-3">
+      <h2 className="text-2xl font-bold">{title}</h2>
       <Link href={href} className="text-sm text-accent hover:underline">
         {linkLabel}
       </Link>

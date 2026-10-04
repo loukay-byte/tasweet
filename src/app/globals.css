@@ -9,7 +9,12 @@
   --border: #e3dac8;
   --accent: #0d6b5f;
   --accent-foreground: #fbf8f1;
-  --chart-b: #7e8984;
+  /* Votes: option A / yes, option B / no, and undecided. */
+  --yes: #0d6b5f;
+  --yes-foreground: #fbf8f1;
+  --no: #c45e1a;
+  --no-foreground: #fbf8f1;
+  --undecided: #b3aea2;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +27,11 @@
     --border: #2a7469;
     --accent: #f5efe3;
     --accent-foreground: #0d5c52;
-    --chart-b: #7fb3a8;
+    --yes: #6fd3bc;
+    --yes-foreground: #0a4e46;
+    --no: #f29a4e;
+    --no-foreground: #0a4e46;
+    --undecided: #557d75;
   }
 }
 
@@ -34,9 +43,12 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-chart-b: var(--chart-b);
-  --font-sans: var(--font-body), system-ui, sans-serif;
-  --font-display: var(--font-kufi), var(--font-body), system-ui, sans-serif;
+  --color-yes: var(--yes);
+  --color-yes-foreground: var(--yes-foreground);
+  --color-no: var(--no);
+  --color-no-foreground: var(--no-foreground);
+  --color-undecided: var(--undecided);
+  --font-sans: var(--font-plex), system-ui, sans-serif;
 }
 
 body {

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("the suggest button stays in the header while scrolling", async ({ page }) => {
   await page.goto("/en");
-  const suggest = page.getByRole("banner").getByRole("link", { name: "Suggest a topic" });
+  const suggest = page.getByRole("banner").getByRole("link", { name: "Suggest", exact: true });
   await expect(suggest).toBeInViewport();
   await page.mouse.wheel(0, 2000);
   await expect(suggest).toBeInViewport();
@@ -46,7 +46,7 @@ test("category chips filter topics", async ({ page }) => {
 
 test("suggesting a topic sends it for review", async ({ page }) => {
   await page.goto("/en");
-  await page.getByRole("link", { name: "Suggest a topic" }).click();
+  await page.getByRole("banner").getByRole("link", { name: "Suggest", exact: true }).click();
   await expect(page).toHaveURL(/\/en\/submit$/);
 
   await page.getByRole("button", { name: "Send for review" }).click();

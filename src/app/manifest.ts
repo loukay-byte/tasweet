@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Tasweet · تصويت",
-    short_name: "تصويت",
+    name: "Sotak · صوتك",
+    short_name: "صوتك",
     description: "منصة رأي عام موثوقة في السعودية",
     start_url: "/",
     display: "standalone",
