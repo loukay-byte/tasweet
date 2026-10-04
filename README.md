@@ -26,6 +26,8 @@ npm run dev                  # http://localhost:3000 → redirects to /ar or /en
 
 The app also runs without Supabase configured; `/api/health` then reports `"supabase": "not_configured"`.
 
+**Pre-launch lock:** set `SITE_USERNAME` and `SITE_PASSWORD` to put every page behind a password; remove them to go live. See [docs/setup.md](docs/setup.md#pre-launch-lock). Data residency and PDPL notes are in [docs/data-residency.md](docs/data-residency.md).
+
 ### Checks
 
 ```bash

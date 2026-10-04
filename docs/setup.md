@@ -31,6 +31,16 @@ update public.users set role = 'moderator' where email = 'you@example.com';
 3. Deploy, then check `https://<project>.vercel.app/api/health`.
 4. Under **Settings → Domains**, add the chosen domain and `www`.
 
+### Pre-launch lock
+
+Until launch, the whole site is behind a username and password (the browser's own sign-in prompt), and search engines are told not to index it.
+
+- **Lock:** in Vercel → Settings → Environment Variables, add `SITE_USERNAME` and `SITE_PASSWORD` for Production and Preview, then redeploy. Use a long, unique password and share it only with testers.
+- **Change the password:** edit `SITE_PASSWORD` and redeploy.
+- **Go live:** delete both variables and redeploy. Pages, `robots.txt`, and indexing return to normal.
+
+`/api/health` and static files (icons, the manifest) stay reachable so monitoring and the browser's install prompt still work; they contain no content.
+
 ## 3. Cloudflare
 
 1. Add the domain to Cloudflare (free plan) and switch the registrar's nameservers to Cloudflare's.

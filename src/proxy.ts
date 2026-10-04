@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, hasLocale, locales, type Locale } from "@/i18n/config";
+import { hasSiteAccess, isSiteLocked, lockedResponse } from "@/lib/site-lock";
 import { updateSession } from "@/lib/supabase/proxy";
 
 function preferredLocale(request: NextRequest): Locale {
@@ -21,6 +22,9 @@ function preferredLocale(request: NextRequest): Locale {
 }
 
 export async function proxy(request: NextRequest) {
+  // Pre-launch lock comes first: nothing renders without the password.
+  if (!hasSiteAccess(request)) return lockedResponse();
+
   const { pathname } = request.nextUrl;
   const hasPrefix = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
@@ -33,6 +37,7 @@ export async function proxy(request: NextRequest) {
   }
 
   const response = NextResponse.next({ request });
+  if (isSiteLocked) response.headers.set("X-Robots-Tag", "noindex, nofollow");
   const current = pathname.split("/")[1];
   if (request.cookies.get("NEXT_LOCALE")?.value !== current) {
     response.cookies.set("NEXT_LOCALE", current, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });

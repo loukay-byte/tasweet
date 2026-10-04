@@ -11,3 +11,18 @@
 - Tunable values (cooldowns, trust thresholds) live in `private.settings` in the database, with safe defaults in the functions that read them.
 - Pluralize counts with `plural()` from `src/i18n/config.ts`; Arabic has six plural forms.
 - After a schema change: add a migration, run `npx supabase db reset`, `npm run db:types`, `npm run test:db`, and `npm run test:e2e`.
+
+## Keep hosting portable (Vercel today, possibly Cloudflare later)
+
+- Scheduled jobs run in the database with `pg_cron`, never Vercel Cron.
+- Read the visitor's country from Cloudflare's `CF-IPCountry` header, not `x-vercel-ip-country`.
+- No Vercel-only services (KV, Blob, Postgres, Edge Config); store data in Supabase.
+- Generate share images with Next's built-in `ImageResponse` (`next/og`).
+- Use plain pre-sized images; don't rely on `next/image` optimization.
+- Use only standard Supabase features, so the database can move to self-hosted Supabase in the Kingdom if required (see `docs/data-residency.md`).
+
+## Privacy
+
+- Collect the minimum: store "inside KSA: yes/no", never raw coordinates or full IPs. Keep profile fields optional.
+- Personal data that is only needed briefly gets an automatic deletion job (see `private.purge_vote_signals`).
+- The site is locked pre-launch by `SITE_USERNAME` / `SITE_PASSWORD` (see `src/lib/site-lock.ts`); keep new routes behind the proxy.
