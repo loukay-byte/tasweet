@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "title": "Sotak",
+    "description": "A trusted public opinion platform: vote on current topics in Saudi Arabia and see where the public stands."
+  },
+  "nav": {
+    "home": "Home",
+    "methodology": "Methodology",
+    "results": "Results",
+    "suggest": "Suggest a topic",
+    "create": "Create question",
+    "account": "Account",
+    "search": "Search",
+    "language": "Language",
+    "tabs": "Main navigation"
+  },
+  "home": {
+    "tagline": "Say what you think. See where everyone stands.",
+    "votingNow": "{count} voting now",
+    "questionOfTheDay": "Question of the Day",
+    "trending": "Trending",
+    "recentResults": "Recent results",
+    "votesToday": {
+      "one": "1 vote today",
+      "other": "{count} votes today"
+    },
+    "noTopics": "No open topics right now. Check back soon.",
+    "seeAll": "See all"
+  },
+  "methodology": {
+    "title": "Methodology",
+    "body": "Results reflect verified Sotak voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here.",
+    "principlesTitle": "Our principles",
+    "principles": [
+      {
+        "title": "Credibility over volume",
+        "body": "Only geo-verified, trusted votes count in official results."
+      },
+      {
+        "title": "No pay to sway",
+        "body": "Money never changes a vote or a result."
+      },
+      {
+        "title": "Open by default",
+        "body": "The code is public on GitHub and the methodology is published."
+      },
+      {
+        "title": "Privacy first",
+        "body": "Results are only ever shown in aggregate, never as individual votes."
+      },
+      {
+        "title": "Moderated, not censored",
+        "body": "Every topic is reviewed before going live, against a published topic policy."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Say what you think. See where everyone stands."
+  },
+  "categories": {
+    "social": "Social",
+    "entertainment": "Entertainment",
+    "gaming": "Gaming",
+    "sports": "Sports",
+    "economy": "Economy",
+    "technology": "Technology",
+    "other": "Other"
+  },
+  "status": {
+    "pending": "In review",
+    "open": "Open",
+    "closed": "Closed",
+    "archived": "Archived",
+    "rejected": "Rejected"
+  },
+  "reasons": {
+    "cost": "Cost",
+    "culture": "Culture",
+    "safety": "Safety",
+    "quality": "Quality",
+    "convenience": "Convenience",
+    "experience": "Personal experience"
+  },
+  "topic": {
+    "sponsored": "Sponsored",
+    "totalVotes": {
+      "zero": "No votes yet",
+      "one": "1 vote",
+      "other": "{count} votes"
+    },
+    "swipeHint": "Tap an option, or swipe the card toward it",
+    "voting": "Recording your vote…",
+    "guessTitle": "Before you see the result: what % do you think chose “{option}”?",
+    "reasonsTitle": "Why? (optional)",
+    "guessSubmit": "Show the result",
+    "skip": "Skip",
+    "yourVote": "Your vote",
+    "guessResult": "You guessed {guess}. The actual result is {actual}.",
+    "changeVote": "Change your vote",
+    "changeAvailable": "You can change your vote after {time}.",
+    "closedNotice": "Voting on this topic has ended. These are the final results.",
+    "resultsNote": "Results reflect Sotak voters, not all of KSA.",
+    "methodologyLink": "How votes are verified",
+    "live": "Live",
+    "errors": {
+      "topic_not_open": "Voting on this topic is closed.",
+      "change_cooldown": "You changed your vote recently. Try again later.",
+      "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "or": "or",
+    "final": "Final result",
+    "voteNow": "Vote now",
+    "seeResult": "Result"
+  },
+  "explore": {
+    "title": "Explore",
+    "searchLabel": "Search topics",
+    "searchPlaceholder": "Search a word, like: coffee",
+    "categoriesLabel": "Categories",
+    "allCategories": "All",
+    "topicCount": {
+      "zero": "No topics",
+      "one": "1 topic",
+      "other": "{count} topics"
+    },
+    "noMatches": "No topics match “{q}”.",
+    "noTopics": "No topics in this category yet.",
+    "noMatchesHint": "Try another word, or"
+  },
+  "results": {
+    "title": "Results",
+    "intro": "Final results for topics where voting has ended.",
+    "empty": "No final results yet.",
+    "voteOpen": "Vote on open topics"
+  },
+  "submit": {
+    "title": "Suggest a topic",
+    "intro": "Write a question with two options. Moderators review it before it goes live.",
+    "policyTitle": "Before you send",
+    "policy": [
+      "No political or religious topics, and no named people.",
+      "Neutral wording and two balanced options.",
+      "A clear question that either option can answer."
+    ],
+    "questionLabel": "Question",
+    "questionPlaceholder": "Example: Do you prefer travelling in summer or in winter?",
+    "questionHint": "10 to 200 characters.",
+    "optionA": "First option",
+    "optionB": "Second option",
+    "categoryLabel": "Category",
+    "descriptionLabel": "Details (optional)",
+    "previewLabel": "How it will look",
+    "send": "Send for review",
+    "sending": "Sending…",
+    "sentTitle": "Sent for review",
+    "sentBody": "Moderators review every topic against the topic policy before it goes live, and may adjust the wording to keep it neutral.",
+    "another": "Suggest another topic",
+    "backHome": "Back to home",
+    "errors": {
+      "invalid_question": "Write a question between 10 and 200 characters.",
+      "invalid_options": "Write two different options, each 60 characters or fewer.",
+      "invalid_description": "Shorten the details to 500 characters or fewer.",
+      "invalid_category": "Choose a category for the topic.",
+      "too_many_pending": "You have topics waiting for review. Wait for a decision before suggesting more.",
+      "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
+      "generic": "Couldn't send. Try again."
+    }
+  },
+  "menu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "title": "Menu",
+    "search": "Search topics",
+    "categories": "Categories",
+    "allTopics": "Browse all topics",
+    "methodology": "Methodology"
+  },
+  "account": {
+    "title": "Account",
+    "comingTitle": "Sign-in is coming soon",
+    "comingBody": "Soon you'll be able to sign in with Google, Apple, or email. Until then, your votes are kept on this device.",
+    "howVerified": "How votes are verified"
+  }
+}
