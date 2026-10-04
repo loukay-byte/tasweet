@@ -11,21 +11,98 @@
   "home": {
     "tagline": "Your vote. The public's view.",
     "intro": "Vote on current topics and see where public opinion in the Kingdom stands. Results come from verified voters only.",
-    "comingSoon": "Coming soon",
-    "principlesTitle": "Our principles",
-    "principles": [
-      { "title": "Credibility over volume", "body": "Only geo-verified, trusted votes count in official results." },
-      { "title": "No pay to sway", "body": "Money never changes a vote or a result." },
-      { "title": "Open by default", "body": "The code is public on GitHub and the methodology is published." },
-      { "title": "Privacy first", "body": "Results are only ever shown in aggregate, never as individual votes." },
-      { "title": "Moderated, not censored", "body": "Every topic is reviewed before going live, against a published topic policy." }
-    ]
+    "votingNow": "{count} voting now",
+    "questionOfTheDay": "Question of the Day",
+    "trending": "Trending",
+    "recentResults": "Recent results",
+    "votesToday": {
+      "one": "1 vote today",
+      "other": "{count} votes today"
+    },
+    "noTopics": "No open topics right now. Check back soon.",
+    "voteNow": "Vote now",
+    "seeResults": "See results"
   },
   "methodology": {
     "title": "Methodology",
-    "body": "Results reflect verified Tasweet voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here."
+    "body": "Results reflect verified Tasweet voters, not all of KSA. A full explanation of how votes are verified and how the trust score works will be published here.",
+    "principlesTitle": "Our principles",
+    "principles": [
+      {
+        "title": "Credibility over volume",
+        "body": "Only geo-verified, trusted votes count in official results."
+      },
+      {
+        "title": "No pay to sway",
+        "body": "Money never changes a vote or a result."
+      },
+      {
+        "title": "Open by default",
+        "body": "The code is public on GitHub and the methodology is published."
+      },
+      {
+        "title": "Privacy first",
+        "body": "Results are only ever shown in aggregate, never as individual votes."
+      },
+      {
+        "title": "Moderated, not censored",
+        "body": "Every topic is reviewed before going live, against a published topic policy."
+      }
+    ]
   },
   "footer": {
     "rights": "Tasweet"
+  },
+  "categories": {
+    "social": "Social",
+    "entertainment": "Entertainment",
+    "gaming": "Gaming",
+    "sports": "Sports",
+    "economy": "Economy",
+    "technology": "Technology",
+    "other": "Other"
+  },
+  "status": {
+    "pending": "In review",
+    "open": "Open",
+    "closed": "Closed",
+    "archived": "Archived",
+    "rejected": "Rejected"
+  },
+  "reasons": {
+    "cost": "Cost",
+    "culture": "Culture",
+    "safety": "Safety",
+    "quality": "Quality",
+    "convenience": "Convenience",
+    "experience": "Personal experience"
+  },
+  "topic": {
+    "sponsored": "Sponsored",
+    "totalVotes": {
+      "zero": "No votes yet",
+      "one": "1 vote",
+      "other": "{count} votes"
+    },
+    "swipeHint": "Tap an option, or swipe the card toward it",
+    "voting": "Recording your vote…",
+    "guessTitle": "Before you see the result: what % do you think chose “{option}”?",
+    "reasonsTitle": "Why? (optional)",
+    "guessSubmit": "Show the result",
+    "skip": "Skip",
+    "yourVote": "Your vote",
+    "guessResult": "You guessed {guess}. The actual result is {actual}.",
+    "changeVote": "Change your vote",
+    "changeAvailable": "You can change your vote after {time}.",
+    "closedNotice": "Voting on this topic has ended. These are the final results.",
+    "resultsNote": "Results reflect Tasweet voters, not all of KSA.",
+    "methodologyLink": "How votes are verified",
+    "live": "Live",
+    "errors": {
+      "topic_not_open": "Voting on this topic is closed.",
+      "change_cooldown": "You changed your vote recently. Try again later.",
+      "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
+      "generic": "Something went wrong. Please try again."
+    }
   }
 }

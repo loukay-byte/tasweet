@@ -14,7 +14,10 @@ All three run on free tiers. Do them in this order.
    NEXT_PUBLIC_SUPABASE_ANON_KEY=...
    ```
    Never put the `service_role` key in a `NEXT_PUBLIC_` variable or commit it.
-4. Run `npm run dev` and open `/api/health`. It should return `{"ok":true,"supabase":"connected"}`.
+4. Under **Authentication → Sign In / Providers**, turn on **Allow anonymous sign-ins**. Phase 2 gives each voter an anonymous session on their first vote; Phase 3 adds Google, Apple, and email sign-in. Also enable CAPTCHA protection with Cloudflare Turnstile there before any public launch.
+5. Run `npm run dev` and open `/api/health`. It should return `{"ok":true,"supabase":"connected"}`.
+
+Do not run `supabase/seed.sql` against production; it contains sample topics and fake users for local development.
 
 To make yourself a moderator after signing up (Phase 3+), run in SQL Editor:
 ```sql
