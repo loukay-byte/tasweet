@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { fill, formatNumber, formatPercent, numberLocale, plural, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/client";
@@ -105,7 +105,7 @@ export function VotePanel({ lang, topicId, optionA, optionB, labels, reasons }: 
   return (
     <section aria-live="polite" className="space-y-4">
       {error && (
-        <p role="alert" className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
+        <p role="alert" className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
           {error}
         </p>
       )}
@@ -276,7 +276,8 @@ function GuessStep({
             max={100}
             value={guess}
             onChange={(e) => setGuess(Number(e.target.value))}
-            className="w-full accent-[var(--accent)]"
+            style={{ "--fill": `${guess}%` } as CSSProperties}
+            className="range w-full"
           />
           <output htmlFor="guess" className="w-14 shrink-0 text-end text-2xl font-bold tabular-nums">
             {formatNumber(lang, guess)}%
@@ -393,7 +394,7 @@ function ResultsView({
               <div className="h-3 overflow-hidden rounded-full bg-border">
                 <div
                   className={`h-full rounded-full transition-[width] duration-700 ${
-                    row.choice === "a" ? "bg-accent" : "bg-foreground/60"
+                    row.choice === "a" ? "bg-accent" : "bg-chart-b"
                   }`}
                   style={{ width: `${row.pct}%` }}
                 />

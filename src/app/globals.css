@@ -1,24 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fbfaf7;
-  --foreground: #1c1b19;
-  --muted: #6b6860;
-  --surface: #ffffff;
-  --border: #e6e3dc;
-  --accent: #0f7a5c;
-  --accent-foreground: #ffffff;
+  /* Light: cream and off-white with teal green accents. */
+  --background: #f5efe3;
+  --foreground: #1d2a27;
+  --muted: #5c6863;
+  --surface: #fbf8f1;
+  --border: #e3dac8;
+  --accent: #0d6b5f;
+  --accent-foreground: #fbf8f1;
+  --chart-b: #7e8984;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #121211;
-    --foreground: #eeece7;
-    --muted: #a19e96;
-    --surface: #1b1b19;
-    --border: #2c2b28;
-    --accent: #3fbf93;
-    --accent-foreground: #0b1f18;
+    /* Dark: the inverse, teal green with cream. */
+    --background: #0d5c52;
+    --foreground: #f5efe3;
+    --muted: #cadbd4;
+    --surface: #0a4e46;
+    --border: #2a7469;
+    --accent: #f5efe3;
+    --accent-foreground: #0d5c52;
+    --chart-b: #7fb3a8;
   }
 }
 
@@ -30,6 +34,7 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-chart-b: var(--chart-b);
   --font-sans: var(--font-arabic), var(--font-latin), system-ui, sans-serif;
 }
 
@@ -37,4 +42,37 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Range slider in theme colors; --fill is set inline to the current value. */
+input[type="range"].range {
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--border) var(--fill));
+  cursor: pointer;
+}
+[dir="rtl"] input[type="range"].range {
+  background: linear-gradient(to left, var(--accent) var(--fill), var(--border) var(--fill));
+}
+input[type="range"].range::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+input[type="range"].range::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+input[type="range"].range:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }

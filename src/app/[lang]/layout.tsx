@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
-    { media: "(prefers-color-scheme: dark)", color: "#121211" },
+    { media: "(prefers-color-scheme: light)", color: "#f5efe3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d5c52" },
   ],
 };
 
