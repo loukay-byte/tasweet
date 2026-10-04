@@ -19,9 +19,12 @@ export type LocalizedTopic = {
   optionB: string;
 };
 
-// English fields are optional; fall back to Arabic when missing.
+const pick = (lang: Locale, ar: string | null, en: string | null) =>
+  (lang === "en" ? (en ?? ar) : (ar ?? en)) ?? "";
+
+// Each topic may be missing one language (suggestions arrive in one);
+// fall back to the other.
 export function localize(topic: Topic, lang: Locale): LocalizedTopic {
-  const en = lang === "en";
   const now = Date.now();
   return {
     id: topic.id,
@@ -34,10 +37,10 @@ export function localize(topic: Topic, lang: Locale): LocalizedTopic {
       (!topic.opens_at || Date.parse(topic.opens_at) <= now) &&
       (!topic.closes_at || Date.parse(topic.closes_at) > now),
     closesAt: topic.closes_at,
-    question: (en && topic.question_en) || topic.question_ar,
-    description: (en && topic.description_en) || topic.description_ar,
-    optionA: (en && topic.option_a_en) || topic.option_a_ar,
-    optionB: (en && topic.option_b_en) || topic.option_b_ar,
+    question: pick(lang, topic.question_ar, topic.question_en),
+    description: pick(lang, topic.description_ar, topic.description_en) || null,
+    optionA: pick(lang, topic.option_a_ar, topic.option_a_en),
+    optionB: pick(lang, topic.option_b_ar, topic.option_b_en),
   };
 }
 
@@ -105,4 +108,28 @@ export async function getVotingNow(): Promise<number> {
   const { data, error } = await supabase.rpc("voting_now");
   if (error) throw error;
   return data ?? 0;
+}
+
+export async function searchTopics(query: string, category: Topic["category"] | null): Promise<Topic[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("search_topics", {
+    p_query: query,
+    p_category: category ?? undefined,
+    p_limit: 40,
+  });
+  if (error) throw error;
+  return data;
+}
+
+// Final A share (0–100) for closed or archived topics, keyed by topic id.
+// Topics with no counted votes are left out.
+export async function getClosedResults(topicIds: string[]): Promise<Map<string, number>> {
+  const supabase = createPublicClient();
+  if (!supabase || topicIds.length === 0) return new Map();
+  const { data, error } = await supabase.rpc("closed_results", { p_topic_ids: topicIds });
+  if (error) throw error;
+  return new Map(
+    data.filter((r) => r.a + r.b > 0).map((r) => [r.topic_id, Math.round((r.a / (r.a + r.b)) * 100)]),
+  );
 }

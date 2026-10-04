@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { VotePanel } from "@/components/VotePanel";
 import { hasLocale, locales } from "@/i18n/config";
@@ -43,15 +44,15 @@ export default async function TopicPage({ params }: PageProps<"/[lang]/t/[slug]"
     <article className="space-y-6">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-          <span className="rounded-full bg-accent/10 px-2.5 py-0.5 font-medium text-accent">
+          <Link href={`/${lang}/explore?c=${topic.category}`} className="font-medium text-accent hover:underline">
             {dict.categories[topic.category]}
-          </span>
+          </Link>
           {topic.isSponsored && (
             <span className="rounded-full border border-border px-2.5 py-0.5">{dict.topic.sponsored}</span>
           )}
-          <span>{topic.isOpen ? dict.status.open : dict.status[topic.status === "open" ? "closed" : topic.status]}</span>
+          <span>· {topic.isOpen ? dict.status.open : dict.status[topic.status === "open" ? "closed" : topic.status]}</span>
         </div>
-        <h1 className="text-2xl font-bold leading-snug sm:text-3xl">{topic.question}</h1>
+        <h1 className="font-display text-[2.25rem] leading-[1.2] font-bold text-balance sm:text-5xl">{topic.question}</h1>
         {topic.description && <p className="text-muted">{topic.description}</p>}
       </header>
 

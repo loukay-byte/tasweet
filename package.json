@@ -9,7 +9,8 @@
     "lint": "eslint",
     "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts",
     "test:db": "supabase test db",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "supabase db reset && rm -rf .next/cache/fetch-cache && playwright test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

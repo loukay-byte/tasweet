@@ -10,4 +10,4 @@
 - Anti-abuse thresholds are private environment settings, never committed.
 - Tunable values (cooldowns, trust thresholds) live in `private.settings` in the database, with safe defaults in the functions that read them.
 - Pluralize counts with `plural()` from `src/i18n/config.ts`; Arabic has six plural forms.
-- After a schema change: add a migration, run `npx supabase db reset`, `npm run db:types`, `npm run test:db`, and `npx playwright test`.
+- After a schema change: add a migration, run `npx supabase db reset`, `npm run db:types`, `npm run test:db`, and `npm run test:e2e`.

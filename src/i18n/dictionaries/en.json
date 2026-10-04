@@ -6,11 +6,14 @@
   "nav": {
     "home": "Home",
     "methodology": "Methodology",
-    "switchLanguage": "العربية"
+    "switchLanguage": "العربية",
+    "explore": "Explore",
+    "results": "Results",
+    "suggest": "Suggest a topic",
+    "switchLanguageShort": "ع"
   },
   "home": {
     "tagline": "Your vote. The public's view.",
-    "intro": "Vote on current topics and see where public opinion in the Kingdom stands. Results come from verified voters only.",
     "votingNow": "{count} voting now",
     "questionOfTheDay": "Question of the Day",
     "trending": "Trending",
@@ -20,8 +23,9 @@
       "other": "{count} votes today"
     },
     "noTopics": "No open topics right now. Check back soon.",
-    "voteNow": "Vote now",
-    "seeResults": "See results"
+    "mostActive": "Most active right now",
+    "exploreAll": "Explore all",
+    "allResults": "All results"
   },
   "methodology": {
     "title": "Methodology",
@@ -51,7 +55,7 @@
     ]
   },
   "footer": {
-    "rights": "Tasweet"
+    "tagline": "Your vote. The public's view."
   },
   "categories": {
     "social": "Social",
@@ -103,6 +107,62 @@
       "change_cooldown": "You changed your vote recently. Try again later.",
       "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
       "generic": "Something went wrong. Please try again."
+    },
+    "or": "or",
+    "final": "Final result"
+  },
+  "explore": {
+    "title": "Explore",
+    "searchLabel": "Search topics",
+    "searchPlaceholder": "Search a word, like: coffee",
+    "categoriesLabel": "Categories",
+    "allCategories": "All",
+    "topicCount": {
+      "zero": "No topics",
+      "one": "1 topic",
+      "other": "{count} topics"
+    },
+    "noMatches": "No topics match “{q}”.",
+    "noTopics": "No topics in this category yet.",
+    "noMatchesHint": "Try another word, or"
+  },
+  "results": {
+    "title": "Results",
+    "intro": "Final results for topics where voting has ended.",
+    "empty": "No final results yet.",
+    "voteOpen": "Vote on open topics"
+  },
+  "submit": {
+    "title": "Suggest a topic",
+    "intro": "Write a question with two options. Moderators review it before it goes live.",
+    "policyTitle": "Before you send",
+    "policy": [
+      "No political or religious topics, and no named people.",
+      "Neutral wording and two balanced options.",
+      "A clear question that either option can answer."
+    ],
+    "questionLabel": "Question",
+    "questionPlaceholder": "Example: Do you prefer travelling in summer or in winter?",
+    "questionHint": "10 to 200 characters.",
+    "optionA": "First option",
+    "optionB": "Second option",
+    "categoryLabel": "Category",
+    "descriptionLabel": "Details (optional)",
+    "previewLabel": "How it will look",
+    "send": "Send for review",
+    "sending": "Sending…",
+    "sentTitle": "Sent for review",
+    "sentBody": "Moderators review every topic against the topic policy before it goes live, and may adjust the wording to keep it neutral.",
+    "another": "Suggest another topic",
+    "backHome": "Back to home",
+    "errors": {
+      "invalid_question": "Write a question between 10 and 200 characters.",
+      "invalid_options": "Write two different options, each 60 characters or fewer.",
+      "invalid_description": "Shorten the details to 500 characters or fewer.",
+      "invalid_category": "Choose a category for the topic.",
+      "too_many_pending": "You have topics waiting for review. Wait for a decision before suggesting more.",
+      "sign_in_failed": "Couldn't start a session. Refresh the page and try again.",
+      "generic": "Couldn't send. Try again."
     }
   }
 }

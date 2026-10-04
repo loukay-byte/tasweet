@@ -107,13 +107,13 @@ isOneToOne: false
                   ]
                 },"topics": {
                   Row: {
-                    "category": Database["public"]['Enums']["topic_category"],"closes_at": string | null,"created_at": string,"description_ar": string | null,"description_en": string | null,"featured_on": string | null,"id": string,"is_sponsored": boolean,"opens_at": string | null,"option_a_ar": string,"option_a_en": string | null,"option_b_ar": string,"option_b_en": string | null,"question_ar": string,"question_en": string | null,"slug": string,"status": Database["public"]['Enums']["topic_status"],"submitted_by": string | null
+                    "category": Database["public"]['Enums']["topic_category"],"closes_at": string | null,"created_at": string,"description_ar": string | null,"description_en": string | null,"featured_on": string | null,"id": string,"is_sponsored": boolean,"opens_at": string | null,"option_a_ar": string | null,"option_a_en": string | null,"option_b_ar": string | null,"option_b_en": string | null,"question_ar": string | null,"question_en": string | null,"search_text": string | null,"slug": string,"status": Database["public"]['Enums']["topic_status"],"submitted_by": string | null
                   }
                   Insert: {
-                    "category"?: Database["public"]['Enums']["topic_category"],"closes_at"?: string | null,"created_at"?: string,"description_ar"?: string | null,"description_en"?: string | null,"featured_on"?: string | null,"id"?: string,"is_sponsored"?: boolean,"opens_at"?: string | null,"option_a_ar": string,"option_a_en"?: string | null,"option_b_ar": string,"option_b_en"?: string | null,"question_ar": string,"question_en"?: string | null,"slug": string,"status"?: Database["public"]['Enums']["topic_status"],"submitted_by"?: string | null
+                    "category"?: Database["public"]['Enums']["topic_category"],"closes_at"?: string | null,"created_at"?: string,"description_ar"?: string | null,"description_en"?: string | null,"featured_on"?: string | null,"id"?: string,"is_sponsored"?: boolean,"opens_at"?: string | null,"option_a_ar"?: string | null,"option_a_en"?: string | null,"option_b_ar"?: string | null,"option_b_en"?: string | null,"question_ar"?: string | null,"question_en"?: string | null,"search_text"?: never,"slug": string,"status"?: Database["public"]['Enums']["topic_status"],"submitted_by"?: string | null
                   }
                   Update: {
-                    "category"?: Database["public"]['Enums']["topic_category"],"closes_at"?: string | null,"created_at"?: string,"description_ar"?: string | null,"description_en"?: string | null,"featured_on"?: string | null,"id"?: string,"is_sponsored"?: boolean,"opens_at"?: string | null,"option_a_ar"?: string,"option_a_en"?: string | null,"option_b_ar"?: string,"option_b_en"?: string | null,"question_ar"?: string,"question_en"?: string | null,"slug"?: string,"status"?: Database["public"]['Enums']["topic_status"],"submitted_by"?: string | null
+                    "category"?: Database["public"]['Enums']["topic_category"],"closes_at"?: string | null,"created_at"?: string,"description_ar"?: string | null,"description_en"?: string | null,"featured_on"?: string | null,"id"?: string,"is_sponsored"?: boolean,"opens_at"?: string | null,"option_a_ar"?: string | null,"option_a_en"?: string | null,"option_b_ar"?: string | null,"option_b_en"?: string | null,"question_ar"?: string | null,"question_en"?: string | null,"search_text"?: never,"slug"?: string,"status"?: Database["public"]['Enums']["topic_status"],"submitted_by"?: string | null
                   }
                   Relationships: [
                     {
@@ -190,11 +190,47 @@ isOneToOne: false
             "cast_vote":
 { Args: { "p_choice": Database["public"]['Enums']["vote_choice"],"p_topic_id": string }; Returns: Json
                            },
+"closed_results":
+{ Args: { "p_topic_ids": (string)[] }; Returns: {
+              "a": number,"b": number,"topic_id": string
+            }[]
+                           },
 "is_moderator":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"search_topics":
+{ Args: { "p_category"?: Database["public"]['Enums']["topic_category"],"p_limit"?: number,"p_query"?: string }; Returns: {
+              "category": Database["public"]['Enums']["topic_category"],
+"closes_at": string | null,
+"created_at": string,
+"description_ar": string | null,
+"description_en": string | null,
+"featured_on": string | null,
+"id": string,
+"is_sponsored": boolean,
+"opens_at": string | null,
+"option_a_ar": string | null,
+"option_a_en": string | null,
+"option_b_ar": string | null,
+"option_b_en": string | null,
+"question_ar": string | null,
+"question_en": string | null,
+"search_text": string | null,
+"slug": string,
+"status": Database["public"]['Enums']["topic_status"],
+"submitted_by": string | null
+            }[]
+                          SetofOptions: {
+        from: "*"
+        to: "topics"
+        isOneToOne: false
+        isSetofReturn: true
+      } },
 "submit_guess":
 { Args: { "p_guess_pct_a": number,"p_reason_tags"?: (string)[],"p_topic_id": string }; Returns: undefined
+                           },
+"submit_topic":
+{ Args: { "p_category": Database["public"]['Enums']["topic_category"],"p_description"?: string,"p_lang": string,"p_option_a": string,"p_option_b": string,"p_question": string }; Returns: Json
                            },
 "topic_results":
 { Args: { "p_topic_id": string }; Returns: Json

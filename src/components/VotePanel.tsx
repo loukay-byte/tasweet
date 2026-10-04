@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { fill, formatNumber, formatPercent, numberLocale, plural, type Locale } from "@/i18n/config";
+import { SplitBar } from "@/components/SplitBar";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/client";
 import { percentA, reasonTags, type Choice, type ReasonTag, type TopicResults } from "@/lib/votes";
@@ -38,12 +39,17 @@ export function VotePanel({ lang, topicId, optionA, optionB, labels, reasons }: 
   // Initial state: results if already voted or closed, otherwise the choice.
   useEffect(() => {
     loadResults()
-      .then((r) => setPhase(!r || r.my_vote || !r.is_open ? "results" : "choose"))
+      .then((r) => {
+        // No results means the topic is no longer public (e.g. a cached page
+        // still shows a removed topic).
+        if (!r) setError(labels.errors.topic_not_open);
+        setPhase(!r || r.my_vote || !r.is_open ? "results" : "choose");
+      })
       .catch(() => {
         setError(labels.errors.generic);
         setPhase("choose");
       });
-  }, [loadResults, labels.errors.generic]);
+  }, [loadResults, labels.errors.generic, labels.errors.topic_not_open]);
 
   // Live results while the results are on screen.
   useEffect(() => {
@@ -105,12 +111,12 @@ export function VotePanel({ lang, topicId, optionA, optionB, labels, reasons }: 
   return (
     <section aria-live="polite" className="space-y-4">
       {error && (
-        <p role="alert" className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <p role="alert" className="rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
           {error}
         </p>
       )}
 
-      {phase === "loading" && <div className="h-48 animate-pulse rounded-2xl bg-surface" />}
+      {phase === "loading" && <div className="h-44 animate-pulse rounded-[1.75rem] bg-surface" />}
 
       {(phase === "choose" || phase === "submitting") && (
         <ChooseCard
@@ -118,6 +124,7 @@ export function VotePanel({ lang, topicId, optionA, optionB, labels, reasons }: 
           optionB={optionB}
           disabled={phase === "submitting"}
           hint={phase === "submitting" ? labels.voting : labels.swipeHint}
+          orLabel={labels.or}
           totalLabel={results ? plural(lang, labels.totalVotes, results.total) : null}
           onChoose={vote}
         />
@@ -146,6 +153,7 @@ function ChooseCard({
   optionB,
   disabled,
   hint,
+  orLabel,
   totalLabel,
   onChoose,
 }: {
@@ -153,6 +161,7 @@ function ChooseCard({
   optionB: string;
   disabled: boolean;
   hint: string;
+  orLabel: string;
   totalLabel: string | null;
   onChoose: (choice: Choice) => void;
 }) {
@@ -204,37 +213,39 @@ function ChooseCard({
         onPointerUp={onPointerEnd}
         onPointerCancel={onPointerEnd}
         style={{
-          transform: `translateX(${dx}px) rotate(${dx / 25}deg)`,
-          transition: dx === 0 ? "transform 200ms ease" : "none",
+          transform: `translateX(${dx}px) rotate(${dx / 30}deg)`,
+          transition: dx === 0 ? "transform 250ms cubic-bezier(.2,.8,.2,1)" : "none",
         }}
         data-testid="vote-card"
-        className="touch-pan-y select-none rounded-2xl border border-border bg-surface p-4 shadow-sm"
+        className="relative grid touch-pan-y select-none grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border bg-surface"
       >
-        <div className="grid grid-cols-2 gap-3">
-          {(["a", "b"] as const).map((choice) => {
-            const label = choice === "a" ? optionA : optionB;
-            const highlighted = leaning === choice;
-            return (
-              <button
-                key={choice}
-                type="button"
-                disabled={disabled}
-                onClick={() => onChoose(choice)}
-                className={`min-h-28 rounded-xl border-2 px-3 py-6 text-lg font-bold transition disabled:opacity-60 ${
-                  highlighted
-                    ? "border-accent bg-accent text-accent-foreground"
-                    : "border-border hover:border-accent hover:bg-accent/5"
-                }`}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+        {(["a", "b"] as const).map((choice) => {
+          const label = choice === "a" ? optionA : optionB;
+          const highlighted = leaning === choice;
+          return (
+            <button
+              key={choice}
+              type="button"
+              disabled={disabled}
+              onClick={() => onChoose(choice)}
+              className={`font-display flex min-h-40 items-center justify-center px-5 py-8 text-center text-2xl leading-snug font-bold transition-colors disabled:opacity-60 ${
+                choice === "a" ? "border-e border-border" : ""
+              } ${highlighted ? "bg-accent text-accent-foreground" : "hover:bg-accent/10 active:bg-accent/15"}`}
+            >
+              {label}
+            </button>
+          );
+        })}
+        <span
+          aria-hidden="true"
+          className="font-display pointer-events-none absolute top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-sm text-muted"
+        >
+          {orLabel}
+        </span>
       </div>
-      <div className="flex items-center justify-between text-xs text-muted">
+      <div className="flex items-center justify-between gap-4 text-xs text-muted">
         <span>{hint}</span>
-        {totalLabel && <span>{totalLabel}</span>}
+        {totalLabel && <span className="shrink-0">{totalLabel}</span>}
       </div>
     </div>
   );
@@ -263,7 +274,7 @@ function GuessStep({
   };
 
   return (
-    <div className="space-y-6 rounded-2xl border border-border bg-surface p-5">
+    <div className="space-y-6 rounded-[1.75rem] border border-border bg-surface p-5">
       <div className="space-y-4">
         <label htmlFor="guess" className="block font-medium">
           {fill(labels.guessTitle, { option: optionA })}
@@ -279,7 +290,7 @@ function GuessStep({
             style={{ "--fill": `${guess}%` } as CSSProperties}
             className="range w-full"
           />
-          <output htmlFor="guess" className="w-14 shrink-0 text-end text-2xl font-bold tabular-nums">
+          <output htmlFor="guess" className="font-display w-20 shrink-0 text-end text-4xl font-bold tabular-nums">
             {formatNumber(lang, guess)}%
           </output>
         </div>
@@ -312,7 +323,7 @@ function GuessStep({
           type="button"
           disabled={busy}
           onClick={() => submit(true)}
-          className="flex-1 rounded-xl bg-accent px-4 py-3 font-bold text-accent-foreground disabled:opacity-60"
+          className="flex-1 rounded-full bg-accent px-4 py-3 font-medium text-accent-foreground transition active:scale-[.98] disabled:opacity-60"
         >
           {labels.guessSubmit}
         </button>
@@ -320,7 +331,7 @@ function GuessStep({
           type="button"
           disabled={busy}
           onClick={() => submit(false)}
-          className="rounded-xl px-4 py-3 text-sm text-muted hover:text-foreground disabled:opacity-60"
+          className="rounded-full px-4 py-3 text-sm text-muted hover:text-foreground disabled:opacity-60"
         >
           {labels.skip}
         </button>
@@ -349,6 +360,13 @@ function ResultsView({
   const mine = results.my_vote;
   const canChangeAt = mine ? Date.parse(mine.can_change_at) : null;
   const [now, setNow] = useState(() => Date.now());
+  // Start at an even split, then let the seam slide to the real result.
+  const [shown, setShown] = useState<number | null>(null);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(pctA));
+    return () => cancelAnimationFrame(id);
+  }, [pctA]);
 
   // Re-render when the change cooldown ends.
   useEffect(() => {
@@ -357,51 +375,30 @@ function ResultsView({
     return () => clearTimeout(id);
   }, [canChangeAt, now]);
 
-  const rows = [
-    { choice: "a" as const, label: optionA, pct: total ? pctA : 0, count: results.a ?? 0 },
-    { choice: "b" as const, label: optionB, pct: total ? 100 - pctA : 0, count: results.b ?? 0 },
-  ];
-
   return (
-    <div className="space-y-5 rounded-2xl border border-border bg-surface p-5">
-      {!results.is_open && <p className="text-sm text-muted">{labels.closedNotice}</p>}
-
+    <div className="space-y-5 rounded-[1.75rem] border border-border bg-surface p-5">
       <div className="flex items-center justify-between text-sm text-muted">
         <span>{plural(lang, labels.totalVotes, results.total)}</span>
-        {results.is_open && (
+        {results.is_open ? (
           <span className="inline-flex items-center gap-1.5 text-accent">
-            <span className="size-1.5 rounded-full bg-accent" />
+            <span className="size-1.5 animate-pulse rounded-full bg-accent" />
             {labels.live}
           </span>
+        ) : (
+          <span>{labels.final}</span>
         )}
       </div>
 
       {total > 0 && (
-        <ul className="space-y-3">
-          {rows.map((row) => (
-            <li key={row.choice} className="space-y-1.5">
-              <div className="flex items-center justify-between gap-3">
-                <span className="flex flex-wrap items-center gap-2 font-medium">
-                  <span>{row.label}</span>
-                  {mine?.choice === row.choice && (
-                    <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs leading-5 text-accent">
-                      {labels.yourVote}
-                    </span>
-                  )}
-                </span>
-                <span className="text-xl font-bold tabular-nums">{formatNumber(lang, row.pct)}%</span>
-              </div>
-              <div className="h-3 overflow-hidden rounded-full bg-border">
-                <div
-                  className={`h-full rounded-full transition-[width] duration-700 ${
-                    row.choice === "a" ? "bg-accent" : "bg-chart-b"
-                  }`}
-                  style={{ width: `${row.pct}%` }}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <SplitBar
+          lang={lang}
+          size="lg"
+          pctA={shown ?? 50}
+          labelA={optionA}
+          labelB={optionB}
+          mine={mine?.choice}
+          mineLabel={labels.yourVote}
+        />
       )}
 
       {mine?.guess_pct_a != null && total > 0 && (
@@ -412,6 +409,8 @@ function ResultsView({
           })}
         </p>
       )}
+
+      {!results.is_open && <p className="text-sm text-muted">{labels.closedNotice}</p>}
 
       {mine && results.is_open && (
         <div className="border-t border-border pt-4">

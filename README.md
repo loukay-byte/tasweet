@@ -32,7 +32,7 @@ The app also runs without Supabase configured; `/api/health` then reports `"supa
 npm run lint
 npm run typecheck
 npm run test:db              # database rules (pgTAP), needs `supabase start`
-npx playwright test          # end-to-end, needs `supabase start` and seed data
+npm run test:e2e             # end-to-end: resets the local DB, clears cached data, runs Playwright
 npm run db:types             # regenerate TypeScript types after a schema change
 npx supabase db reset        # wipe the local database and reapply migrations + seed
 ```
@@ -57,7 +57,7 @@ docs/                Setup and deployment guides
 ## Build phases
 
 - [x] **1. Foundation:** Next.js, Arabic and English layout, Supabase connected, Vercel + Cloudflare ([setup guide](docs/setup.md))
-- [x] **2. Topics and voting:** topic pages, tap and swipe voting, guess-the-result, live results, homepage, "voting now" counter ([how voting works](docs/voting.md))
+- [x] **2. Topics and voting:** topic pages, tap and swipe voting, guess-the-result, live results, homepage, "voting now" counter ([how voting works](docs/voting.md)). Also: topic suggestions (pending review), Explore with Arabic-aware search, Results archive, bottom tab bar
 - [ ] **3. Accounts and trust:** Google, Apple, and email sign-in; profile; consent; trust signals and score; verified-only results
 - [ ] **4. Moderation:** submission form, AI pre-screening, admin dashboard, topic lifecycle, moderation log
 - [ ] **5. Growth:** shareable result cards, Public Opinion Case trigger, opinion-over-time charts, streaks, embeddable widget, methodology page
